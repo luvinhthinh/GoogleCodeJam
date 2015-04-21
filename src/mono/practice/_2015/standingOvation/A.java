@@ -1,7 +1,6 @@
-package mono.practice.standingOvation;
+package mono.practice._2015.standingOvation;
 
 import java.util.*;
-import java.io.*;
 
 public class A
 {
@@ -27,5 +26,6 @@ public class A
             }
             System.out.printf("Case #%d: %d\n", n + 1, numFriends);
         }
+        input.close();
     }
 }

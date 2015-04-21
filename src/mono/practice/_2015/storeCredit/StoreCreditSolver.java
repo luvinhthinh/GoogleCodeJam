@@ -1,9 +1,7 @@
-package mono.practice.storeCredit;
+package mono.practice._2015.storeCredit;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
-//import com.sun.xml.internal.ws.util.StringUtils;
 
 public class StoreCreditSolver {
 	

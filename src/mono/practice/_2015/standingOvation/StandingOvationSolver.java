@@ -1,4 +1,4 @@
-package mono.practice.standingOvation;
+package mono.practice._2015.standingOvation;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

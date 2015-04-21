@@ -1,4 +1,4 @@
-package mono.practice.reverseWords;
+package mono.practice._2015.reverseWords;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
