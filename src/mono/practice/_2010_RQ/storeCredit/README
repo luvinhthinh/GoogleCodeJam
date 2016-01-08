@@ -45,3 +45,15 @@ Output
 Case #1: 2 3
 Case #2: 1 4
 Case #3: 4 5
+
+My Solution : 
+StoreCreditSolver_v1 : 
+  - a naive and messy solver : two loops to find the value
+  - O(N * M) where N is number of items in store, M potentially runs from 1 to N-1
+StoreCreditSolver_v2 : 
+  - an improved version of v1
+  - constructing a lookup table whose key is the item's price and value is a queue keeping indexes of that item in the input
+StoreCreditSolver_v3 :
+  - O(N + 1) where N is the number of items in store, and additional operation to look up in table for the the next value
+StoreCreditSolver_v3 : 
+  - a cleaned up version of v2 to make the code easy to read and maintain
