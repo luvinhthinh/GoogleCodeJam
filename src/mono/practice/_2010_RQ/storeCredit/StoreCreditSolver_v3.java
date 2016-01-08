@@ -2,24 +2,82 @@ package mono.practice._2010_RQ.storeCredit;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.stream.IntStream;
 
 public class StoreCreditSolver_v3 {
-	int credit, noOfItem;
+	private List<Game> games = new ArrayList<Game>();
+	private List<String> results = new ArrayList<String>();
 	
-	private Map<Integer, Queue<Integer>> stringToMap(String input){
-		String[] sArray= input.split("\\s");
-		
+	public void read(){
+		List<Game> games = new ArrayList<Game>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            int noOfCase = Integer.parseInt(br.readLine());
+            for(int i=0; i<noOfCase; i++){
+            	games.add(
+            			new Game(
+            					Integer.parseInt(br.readLine()), 	// Credit
+            					Integer.parseInt(br.readLine()), 	// Number of items
+            					br.readLine().trim().split("\\s")	// item list
+            			));
+            }
+            this.games = games;
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+	}
+	
+	public void solve(){
+		for(Game game : games){
+			if(game.C == 548 && game.I == 1287)
+				System.out.println(game.C + "   " + game.I);
+			results.add(game.solve());
+		}
+	}
+	
+	public void printResult(){
+		for(int i = 1; i <= results.size(); i++){
+			System.out.println("Case #"+i+": " + results.get(i-1));
+		}
+	}
+	
+	public static void main(String[] args) {
+		StoreCreditSolver_v3 solver = new StoreCreditSolver_v3();
+		solver.read();
+		solver.solve();
+		solver.printResult();
+	}
+}
+
+
+class Game{
+	int C, I;
+	String[] items_string;
+	
+	public Game(int C, int I, String[] items){
+		this.C = C;
+		this.I = I;
+		this.items_string = items;
+	}
+	
+	/**
+	 * Convert a string which contains all item's prices into a table whose key is item's price and value is a queue of indexes where the price is located.
+	 * For example :  1 5 9 1 2 4 5 1 -> 1=[0, 3, 7], 5=[1, 6], 9=[2], 2=[4], 4=[5]  
+	 * @return
+	 */
+	private Map<Integer, Queue<Integer>> stringToMap(){
+		String[] sArray= this.items_string;
 		Map<Integer, Queue<Integer>> m = new LinkedHashMap<Integer, Queue<Integer>>();
 		int i = 0;
 		for(String s : sArray){
 			int item = Integer.parseInt(s.trim());
-			if(item < this.credit){
-				Queue<Integer> q = m.get(item) || new LinkedList<Integer>() ;
+			if(item < this.C){
+				Queue<Integer> q = m.get(item);
 				if(q == null){
 					q = new LinkedList<Integer>();
 					m.put(item, q);
@@ -31,45 +89,19 @@ public class StoreCreditSolver_v3 {
 		return m;
 	}
 	
-	private String solveCase(int credit, int noOfItem, Map<Integer, Queue<Integer>> prices){
+	public String solve(){
 		String solution = "";
+		Map<Integer, Queue<Integer>> prices = stringToMap();
 		for (Map.Entry<Integer, Queue<Integer>> entry : prices.entrySet()) {
 			int val = entry.getKey();
 			int index0 = entry.getValue().poll();
 			
-			Queue<Integer> index1 = prices.get(credit - val);
-			if(index1 != null){
+			Queue<Integer> index1 = prices.get(this.C - val);
+			if(index1 != null && !index1.isEmpty()){
 				solution = (index0+1)+ " "+(index1.poll()+1);
 				break;
 			}
 		}
 		return solution;
-	}
-	
-	public void solve(){
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try{
-            int noOfCase = Integer.parseInt(br.readLine());
-            String[] results = new String[noOfCase];
-            for(int i=0; i<noOfCase; i++){
-            	this.credit = Integer.parseInt(br.readLine());
-            	this.noOfItem = Integer.parseInt(br.readLine());
-            	results[i] = solveCase(
-            			this.credit, 
-            			this.noOfItem, 
-            			stringToMap(br.readLine().trim())
-            			);
-            }
-            for(int i=1; i<=noOfCase; i++){
-            	System.out.println("Case #"+i+": " + results[i-1]);
-            }
-        }catch(Exception nfe){
-            System.err.println("Invalid Format!");
-        }
-	}
-	
-	public static void main(String[] args) {
-		StoreCreditSolver_v3 solver = new StoreCreditSolver_v3();
-		solver.solve();
 	}
 }
